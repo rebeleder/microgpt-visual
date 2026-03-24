@@ -140,7 +140,25 @@
         [
           "This is called autoregressive generation — the model generates one token at a time, each depending on all previous tokens. This is exactly how ChatGPT works, just at a much larger scale.",
           "这叫“自回归生成”——模型一次生成一个 Token，每一步都依赖先前所有 Token。ChatGPT 的工作方式本质相同，只是规模大得多。"
-        ]
+        ],
+
+        ["Every unique character in the dataset gets a", "数据集中的每个唯一字符都会分配一个"],
+        [". There are", "。共有"],
+        ["characters (a-z) plus one special", "个字符（a-z），外加一个特殊的"],
+        ["token (id=", "Token（id="],
+        ["). Total vocabulary size:", "）。总词表大小："],
+
+        ["For each position, the model sees the", "在每个位置，模型会看到"],
+        ["and must predict the", "并且必须预测"],
+        [". This is called", "。这称为"],
+        ["— the core of how GPT works.", "——这是 GPT 工作方式的核心。"],
+
+        ["Real GPTs (like GPT-4) use", "真实 GPT（如 GPT-4）使用"],
+        [
+          '(BPE) where common word parts like "ing", "tion", "the" become single tokens. This makes the vocabulary much larger (~50K-100K tokens) but lets the model process text much more efficiently.',
+          '（BPE），其中像 "ing"、"tion"、"the" 这样的常见词片段会成为单个 Token。这会让词表更大（约 5 万到 10 万 Token），但也让模型处理文本更高效。'
+        ],
+        ["tokens is enough to learn patterns in names!", "个 tokens 也足以学习名字中的模式！"]
       ]);
 
       const regexRules = [
@@ -165,7 +183,114 @@
         [/^Probabilities at position (\d+)$/, "位置 $1 的概率"],
         [/^Click "Generate" to create names\.\.\.$/, "点击“生成”来创建名字..."],
         [/^pos (\d+)$/, "位置 $1"],
-        [/^Top: '(.*)' (\d+)%$/, "最高：'$1' $2%"]
+        [/^Top: '(.*)' (\d+)%$/, "最高：'$1' $2%"],
+        [/^\s*Hover over a row to highlight it\.?\s*$/i, "将鼠标悬停在某一行可高亮显示。"]
+      ];
+
+      const fragmentRules = [
+        ["This micro GPT uses", "这个 micro GPT 使用"],
+        ["— each letter is one token.", "——每个字母就是一个 token。"],
+
+        ["wte stands for \"Word Token Embeddings\".", "wte 表示 \"Word Token Embeddings\"。"],
+        ["It's a table with", "它是一个包含"],
+        ["rows (one per token) and", "行（每个 token 一行）以及"],
+        ["columns (the embedding dimension).", "列（即 embedding 维度）。"],
+        ["Each row is how the model \"sees\" that character.", "每一行表示模型如何“看待”这个字符。"],
+        ["Think of it as the model's internal representation of each letter.", "可以把它理解为模型对每个字母的内部表示。"],
+        ["Hover over a row to highlight it.", "将鼠标悬停在某一行可高亮显示。"],
+        ["Hover over a row to highlight it", "将鼠标悬停在某一行可高亮显示"],
+        ["Hover over a row", "将鼠标悬停在某一行"],
+        ["to highlight it.", "以高亮显示。"],
+        ["to highlight it", "以高亮显示"],
+        ["\" to highlight it.\"", " 以高亮显示。"],
+        ["Colors:", "颜色说明："],
+        ["dark = near zero", "dark = 接近 0"],
+        ["Right now these are", "当前这些值是"],
+        ["after training, similar letters will have similar patterns.", "训练后，相似字母会呈现相似模式。"],
+
+        ["wpe stands for \"Word Position Embeddings\".", "wpe 表示 \"Word Position Embeddings\"。"],
+        ["It tells the model", "它告诉模型"],
+        ["a token is in the sequence.", "一个 token 在序列中的位置。"],
+        ["Position 0 = first character, position 1 = second, etc.", "位置 0 = 第一个字符，位置 1 = 第二个，依此类推。"],
+        ["Without this, the model couldn't distinguish \"ab\" from \"ba\"", "没有它，模型无法区分 \"ab\" 和 \"ba\""],
+        ["both have the same characters!", "因为二者字符相同！"],
+        ["The position embedding is", "位置 embedding 会被"],
+        ["to the token embedding.", "到 token embedding 上。"],
+
+        ["When the model processes a token, it looks up", "当模型处理一个 token 时，会查找"],
+        [", then", "，然后"],
+        ["element-by-element.", "按元素相加。"],
+        ["The result is a single vector that encodes both", "结果是一个同时编码了"],
+        ["character and", "字符以及"],
+        ["it is.", "位置信息的向量。"],
+
+        ["Each head learns to focus on different aspects.", "每个注意力头都会学习关注不同方面。"],
+        ["Since this is the first token, all heads have weight", "由于这是第一个 token，所有头在自身上的权重都是"],
+        ["on themselves (nothing else to attend to).", "（没有其他 token 可供关注）。"],
+        ["With more tokens in the sequence, you'd see the attention distributed across previous tokens.", "当序列中有更多 token 时，你会看到注意力分配到之前的 token 上。"],
+
+        ["After the linear layer expands from 16 → 64 dimensions,", "在线性层将维度从 16 扩展到 64 后，"],
+        ["activation sets all negative values to zero.", "激活函数会将所有负值置为 0。"],
+        ["Only the \"active\" neurons (green) pass information through.", "只有“active”神经元（green）会传递信息。"],
+        ["This is how the model creates non-linear representations.", "这就是模型构建非线性表示的方式。"],
+        ["neurons active after ReLU", "个神经元在 ReLU 后处于激活状态"],
+
+        ["Loss measures how wrong the model's predictions are.", "Loss 用来衡量模型预测有多不准确。"],
+        ["measures how wrong the model's predictions are.", "用于衡量模型预测有多不准确。"],
+        ["Lower = better.", "越低越好。"],
+        ["Red dashed line", "Red dashed line"],
+        ["= random guessing (~3.30 for 27 tokens).", "= 随机猜测（27 个 tokens 时约为 ~3.30）。"],
+        ["Green line", "Green line"],
+        ["moving average (smoothed trend).", "移动平均（平滑趋势）。"],
+        ["Press \"Train\" to start", "点击 \"Train\" 开始"],
+
+        ["Forward pass:", "Forward pass："],
+        ["Feed each token through the model, get predictions for the next token.", "将每个 token 输入模型，得到下一个 token 的预测。"],
+        ["Compute loss:", "Compute loss："],
+        ["Measure how wrong each prediction was using", "用"],
+        ["Backward pass:", "Backward pass："],
+        ["Calculate gradients — which direction should each of the", "计算梯度——"],
+        ["parameters move to reduce the loss?", "个参数应朝哪个方向更新才能降低 loss？"],
+        ["Adam update:", "Adam update："],
+        ["Adjust each parameter by a small amount in the right direction.", "沿正确方向对每个参数做小幅更新。"],
+        ["The learning rate starts at 0.01 and linearly decays to 0.", "学习率从 0.01 开始并线性衰减到 0。"],
+        ["After enough steps, the model learns patterns like:", "经过足够步数后，模型会学到如下模式："],
+        ["names often end with", "名字通常以"],
+
+        ["The model hasn't been trained yet!", "模型还没有训练！"],
+        ["Go to the", "请先进入"],
+        ["tab first and train for at least 200 steps.", "页签并至少训练 200 步。"],
+        ["You can still generate, but results will be random gibberish.", "你仍可以生成，但结果大概率是随机乱码。"],
+
+        ["Temperature controls randomness.", "温度控制随机性。"],
+        ["controls randomness.", "控制随机性。"],
+        ["Low (0.1) = always picks the most likely character (boring but safe).", "低温（0.1）= 总是选择最可能字符（稳定但单调）。"],
+        ["High (2.0) = more random picks (creative but chaotic).", "高温（2.0）= 更随机的采样（更有创意但更混乱）。"],
+        ["Try different values!", "尝试不同数值！"],
+
+        ["Generated Names", "生成的名字"],
+        ["Generation Trace:", "生成轨迹："],
+
+        ["Start with the BOS token (signals \"beginning of a name\").", "从 BOS token 开始（表示“名字开始”）。"],
+        ["Feed it through the model → get probabilities for all 27 possible next tokens.", "将其送入模型 → 得到 27 个可能下一个 token 的概率。"],
+        ["Sample one token from this distribution (temperature affects the randomness).", "从该分布中采样一个 token（temperature 会影响随机性）。"],
+        ["one token from this distribution", "一个 token（从该分布中）"],
+        ["(temperature affects the randomness).", "（temperature 会影响随机性）。"],
+        ["If the sampled token is BOS → stop (end of name).", "如果采样到 BOS → 停止（名字结束）。"],
+        ["Otherwise, feed the sampled token back as input and repeat from step 2.", "否则把采样 token 回灌为输入，并从第 2 步继续。"],
+        ["This is called", "这称为"],
+        ["the model generates one token at a time, each depending on all previous tokens.", "模型一次生成一个 token，每一步都依赖所有先前 token。"],
+        ["This is exactly how ChatGPT works, just at a much larger scale.", "这与 ChatGPT 的工作方式完全一致，只是规模大得多。"]
+      ];
+
+      const keywordRules = [
+        [/\bstands for\b/gi, "表示"],
+        [/\brows\b/gi, "行"],
+        [/\bcolumns\b/gi, "列"],
+        [/\bwhere\b/gi, "位置"],
+        [/Hover\s+over\s+a\s+row\s+to\s+highlight\s+it\.?/gi, "将鼠标悬停在某一行可高亮显示。"],
+        [/\bHover\s+over\s+a\s+row\b/gi, "将鼠标悬停在某一行"],
+        [/\bto\s+highlight\s+it\.?\b/gi, "以高亮显示。"]
       ];
 
       const attrMap = new Map([
@@ -175,17 +300,37 @@
 
       function translateString(text) {
         if (!text) return text;
+        let output = text;
         const normalized = text.trim();
         if (!normalized) return text;
         if (exactMap.has(normalized)) {
-          return text.replace(normalized, exactMap.get(normalized));
+          return output.replace(normalized, exactMap.get(normalized));
         }
         for (const [pattern, replacement] of regexRules) {
           if (pattern.test(normalized)) {
-            return text.replace(normalized, normalized.replace(pattern, replacement));
+            return output.replace(normalized, normalized.replace(pattern, replacement));
           }
         }
-        return text;
+        for (const [en, zh] of fragmentRules) {
+          if (output.includes(en)) {
+            output = output.split(en).join(zh);
+          }
+        }
+        for (const [pattern, replacement] of keywordRules) {
+          output = output.replace(pattern, replacement);
+        }
+        return output;
+      }
+
+      function patchCanvasText() {
+        const proto = CanvasRenderingContext2D && CanvasRenderingContext2D.prototype;
+        if (!proto || proto.__microgptPatched) return;
+        const original = proto.fillText;
+        proto.fillText = function (text, ...args) {
+          const translated = typeof text === "string" ? translateString(text) : text;
+          return original.call(this, translated, ...args);
+        };
+        proto.__microgptPatched = true;
       }
 
       function walkAndTranslate(root) {
@@ -226,6 +371,7 @@
       });
 
       const start = () => {
+        patchCanvasText();
         applyTranslations();
         observer.observe(document.body, { childList: true, subtree: true, characterData: true });
         let tries = 0;
