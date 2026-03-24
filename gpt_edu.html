@@ -1,0 +1,2381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPT学习秘籍：零基础理解AI如何学习拼写名字</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #c8a86e;
+            --primary-dark: #a68a5a;
+            --bg-dark: #1e1e1e;
+            --bg-card: #2d2d2d;
+            --bg-section: #252525;
+            --text-primary: #e0d6c2;
+            --text-secondary: #b8b0a0;
+            --text-code: #d4b483;
+            --border: #3d3d3d;
+            --success: #4caf50;
+            --running: #2196f3;
+            --error: #f44336;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            --radius: 8px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+            background: var(--bg-section);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        button {
+            background: var(--primary);
+            color: var(--bg-dark);
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(200, 168, 110, 0.2);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        button.secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        button.secondary:hover {
+            background: var(--bg-section);
+            border-color: var(--primary);
+        }
+
+        .lesson-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .lesson-section {
+            position: relative;
+        }
+
+        .lesson-header {
+            background: var(--bg-section);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .lesson-title {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lesson-title i {
+            font-size: 1.2rem;
+        }
+
+        .lesson-desc {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .section-number {
+            position: absolute;
+            left: -60px;
+            top: 20px;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: var(--bg-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .keywords-box {
+            background: rgba(200, 168, 110, 0.1);
+            border: 1px solid rgba(200, 168, 110, 0.3);
+            border-radius: var(--radius);
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .keywords-title {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .keyword-item {
+            margin: 5px 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .code-block {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+            transition: border-color 0.3s;
+        }
+
+        .code-block.running {
+            border-color: var(--running);
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+        }
+
+        .code-block.done {
+            border-color: var(--success);
+        }
+
+        .code-block.error {
+            border-color: var(--error);
+        }
+
+        .code-header {
+            background: var(--bg-section);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .code-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .code-stats {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .timer {
+            font-family: monospace;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        .progress-bar {
+            width: 100px;
+            height: 6px;
+            background: var(--bg-section);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        pre {
+            margin: 0;
+            padding: 20px;
+            overflow-x: auto;
+            background: #1a1a1a;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        code {
+            color: var(--text-code);
+        }
+
+        .comment {
+            color: #808080;
+            font-style: italic;
+        }
+
+        .output-container {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+            display: none;
+        }
+
+        .output-container.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .output-title {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .output-content {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
+            max-height: 300px;
+            overflow-y: auto;
+            color: var(--text-primary);
+        }
+
+        .analogy-box {
+            background: rgba(200, 168, 110, 0.05);
+            border-left: 3px solid var(--primary);
+            padding: 15px;
+            margin: 15px 0;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .analogy-title {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footnote {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+
+        .success-message {
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            border-radius: var(--radius);
+            padding: 15px;
+            margin: 15px 0;
+            color: #a5d6a7;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: var(--bg-section);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-secondary);
+        }
+
+        .status-dot.running {
+            background: var(--running);
+            animation: pulse 1.5s infinite;
+        }
+
+        .status-dot.done {
+            background: var(--success);
+        }
+
+        .status-dot.error {
+            background: var(--error);
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.4;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.4;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section-number {
+                display: none;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .code-header {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+
+            .code-stats {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1><i class="fas fa-brain"></i> GPT学习秘籍</h1>
+        <div class="subtitle">零基础理解AI如何学习拼写名字 - 用考试和学习比喻看懂243行代码</div>
+
+        <div class="controls">
+            <button id="runAllBtn">
+                <i class="fas fa-play-circle"></i> 全部运行 (约3分钟)
+            </button>
+            <button id="resetBtn" class="secondary">
+                <i class="fas fa-redo"></i> 重置所有代码块
+            </button>
+            <button id="toggleAnalogyBtn" class="secondary">
+                <i class="fas fa-lightbulb"></i> 显示/隐藏所有比喻
+            </button>
+        </div>
+
+        <div class="analogy-box" id="globalAnalogy">
+            <div class="analogy-title">🎯 核心学习方法：考试场景比喻法</div>
+            想象AI是一个学习拼写名字的学生。我们从准备考试材料（数据）开始，到学生自己设计复习方法（训练），最后参加考试（推理生成名字）。每个技术概念都用考试和学习的过程来解释。
+        </div>
+    </header>
+
+    <main class="lesson-container">
+        <!-- 第1部分：准备考试材料 -->
+        <div class="lesson-section">
+            <div class="section-number">1</div>
+            <div class="lesson-header">
+                <h2 class="lesson-title"><i class="fas fa-book"></i> 准备考试材料：数据与词汇表</h2>
+                <p class="lesson-desc">收集名字数据集，创建字符词汇表，就像老师准备考试题目和答案选项</p>
+
+                <div class="keywords-box">
+                    <div class="keywords-title">🔤 本节新词</div>
+                    <div class="keyword-item"><strong>数据集(Dataset)</strong> = 考试题库，这里包含160个英文名字</div>
+                    <div class="keyword-item"><strong>词汇表(Vocabulary)</strong> = 选择题的全部选项，包含所有可能出现的字母</div>
+                    <div class="keyword-item"><strong>标记(Token)</strong> = 给每个选项分配的学号，方便点名</div>
+                    <div class="keyword-item"><strong>特殊标记(BOS Token)</strong> = 考试开始信号，类似"现在开始答题"</div>
+                </div>
+            </div>
+
+            <!-- 代码块1 -->
+            <div class="code-block" id="block1">
+                <div class="code-header">
+                    <div class="code-title">
+                        <span>代码块 1/10: 导入工具与准备数据</span>
+                        <span class="status-indicator">
+                            <span class="status-dot" id="status1"></span>
+                            <span id="statusText1">准备就绪</span>
+                        </span>
+                    </div>
+                    <div class="code-stats">
+                        <div class="timer" id="timer1">0.0s</div>
+                        <button class="run-btn" data-block="1">
+                            <i class="fas fa-play"></i> 运行代码 (Shift+Enter)
+                        </button>
+                    </div>
+                </div>
+                <pre><code>import math
+import random
+import time
+import sys
+
+# 设定随机种子，让每次运行结果一致
+random.seed(42)
+
+# 我们的"考试题库"：160个英文名字
+names = [
+    "emma", "olivia", "ava", "isabella", "sophia", "charlotte", "mia",
+    "amelia", "harper", "evelyn", "abigail", "emily", "elizabeth", "mila",
+    "ella", "avery", "sofia", "camila", "aria", "scarlett", "victoria",
+    "madison", "luna", "grace", "chloe", "penelope", "layla", "riley",
+    "zoey", "nora", "lily", "eleanor", "hannah", "lillian", "addison",
+    "aubrey", "ellie", "stella", "natalie", "zoe", "leah", "hazel",
+    "violet", "aurora", "savannah", "audrey", "brooklyn", "bella",
+    "claire", "skylar", "lucy", "paisley", "everly", "anna", "caroline",
+    "nova", "genesis", "emilia", "kennedy", "samantha", "maya", "willow",
+    "kinsley", "naomi", "aaliyah", "elena", "sarah", "ariana", "allison",
+    "gabriella", "alice", "madelyn", "cora", "ruby", "eva", "serenity",
+    "autumn", "adeline", "hailey", "gianna", "valentina", "isla", "eliana",
+    "quinn", "nevaeh", "ivy", "sadie", "piper", "lydia", "alexa", "josephine",
+    "emmett", "liam", "noah", "oliver", "elijah", "lucas", "mason",
+    "logan", "ethan", "jacob", "michael", "daniel", "henry", "jackson",
+    "sebastian", "alden", "matthew", "samuel", "david", "joseph", "carter",
+    "owen", "wyatt", "john", "james", "benjamin", "charles", "thomas",
+    "christopher", "jaxon", "ryan", "theodore", "josiah", "levi", "brandon",
+    "jeremiah", "angel", "cameron", "connor", "jayden", "jonathan", "isaiah",
+    "caleb", "nathan", "adrian", "christian", "aaron", "elias", "landon",
+    "colton", "roman", "axel", "brooks", "jordan", "dominick", "austin",
+    "ian", "adam", "elias", "julian", "leonardo", "santiago", "theo",
+    "harrison", "oscar", "dyson", "rhys", "beckett", "nash", "zane",
+    "judah", "felix", "bronson", "brody", "lennon", "milo", "tobias"
+]
+
+# 打乱名字顺序，就像打乱考卷
+random.shuffle(names)
+print(f"📚 考试题库大小: {len(names)}个名字")
+print(f"📖 前5个名字示例: {', '.join(names[:5])}")</code></pre>
+                <div class="analogy-box" id="analogy1">
+                    <div class="analogy-title">📝 考试比喻解释：</div>
+                    想象你是一名老师，正在准备一场"拼写名字"考试。首先你需要：
+                    1. 收集160个需要拼写的名字作为题目
+                    2. 随机打乱顺序，防止学生死记硬背
+                    3. 准备好所有可能出现的字母（a-z）作为答题选项
+                </div>
+            </div>
+
+            <!-- 输出区域1 -->
+            <div class="output-container" id="output1">
+                <div class="output-title"><i class="fas fa-terminal"></i> 运行结果</div>
+                <div class="output-content" id="outputContent1"></div>
+            </div>
+
+            <!-- 代码块2 -->
+            <div class="code-block" id="block2">
+                <div class="code-header">
+                    <div class="code-title">
+                        <span>代码块 2/10: 创建字符词汇表与标记</span>
+                        <span class="status-indicator">
+                            <span class="status-dot" id="status2"></span>
+                            <span id="statusText2">准备就绪</span>
+                        </span>
+                    </div>
+                    <div class="code-stats">
+                        <div class="timer" id="timer2">0.0s</div>
+                        <button class="run-btn" data-block="2">
+                            <i class="fas fa-play"></i> 运行代码 (Shift+Enter)
+                        </button>
+                    </div>
+                </div>
+                <pre><code># 找出所有名字中出现的独特字符
+all_chars = ''.join(names)
+unique_chars = sorted(set(all_chars))
+print(f"🔤 考试中可能出现的字母: {''.join(unique_chars)}")
+
+# 为每个字符分配ID（像给学生分配学号）
+char_to_id = {char: idx for idx, char in enumerate(unique_chars)}
+id_to_char = {idx: char for char, idx in char_to_id.items()}
+
+# 添加一个特殊标记表示"考试开始"（BOS = Beginning of Sequence）
+BOS_ID = len(unique_chars)  # 最后一个ID给BOS
+VOCAB_SIZE = len(unique_chars) + 1  # 总词汇表大小（字母数 + BOS）
+
+print(f"🎯 词汇表大小: {VOCAB_SIZE} (包含{BOS_ID}个字母 + 1个BOS标记)")
+print(f"🚦 BOS标记ID: {BOS_ID} (表示'考试开始')")
+
+# 测试：将名字转换为标记序列
+test_name = names[0]
+token_ids = [BOS_ID] + [char_to_id[ch] for ch in test_name] + [BOS_ID]
+print(f"📝 名字 '{test_name}' 的标记序列: {token_ids}")
+print(f"📝 解码回名字: {''.join(id_to_char.get(idx, '?') for idx in token_ids if idx != BOS_ID)}")</code></pre>
+                <div class="analogy-box" id="analogy2">
+                    <div class="analogy-title">📝 考试比喻解释：</div>
+                    就像准备选择题考试：
+                    1. 统计考题中出现的所有字母（a-z），这些就是正确答案选项
+                    2. 给每个字母分配一个学号（0-25），方便系统识别
+                    3. 增加一个特殊的"考试开始"信号BOS（学号26）
+                    4. 每个名字就是一道"拼写题"，我们需要把它转换成学号序列
+                </div>
+            </div>
+
+            <!-- 输出区域2 -->
+            <div class="output-container" id="output2">
+                <div class="output-title"><i class="fas fa-terminal"></i> 运行结果</div>
+                <div class="output-content" id="outputContent2"></div>
+            </div>
+        </div>
+
+        <!-- 第2部分：创建学生大脑（模型） -->
+        <div class="lesson-section">
+            <div class="section-number">2</div>
+            <div class="lesson-header">
+                <h2 class="lesson-title"><i class="fas fa-user-graduate"></i> 创建学生大脑：自动微分与参数</h2>
+                <p class="lesson-desc">实现自动微分（考试自动批改系统）和初始化模型参数（学生知识储备）</p>
+
+                <div class="keywords-box">
+                    <div class="keywords-title">🧠 本节新词</div>
+                    <div class="keyword-item"><strong>自动微分(Automatic Differentiation)</strong> = 考试自动批改系统，能自动计算扣分比例
+                    </div>
+                    <div class="keyword-item"><strong>计算图(Computation Graph)</strong> = 答题步骤流程图，记录每个解题步骤</div>
+                    <div class="keyword-item"><strong>梯度(Gradient)</strong> = 扣分责任分配，哪个知识点没学好就该多复习</div>
+                    <div class="keyword-item"><strong>参数(Parameter)</strong> = 学生大脑中的知识储备，需要通过学习调整</div>
+                    <div class="keyword-item"><strong>嵌入(Embedding)</strong> = 给每个选项（字母）一个独特的学习笔记</div>
+                </div>
+            </div>
+
+            <!-- 代码块3 -->
+            <div class="code-block" id="block3">
+                <div class="code-header">
+                    <div class="code-title">
+                        <span>代码块 3/10: 创建自动微分系统</span>
+                        <span class="status-indicator">
+                            <span class="status-dot" id="status3"></span>
+                            <span id="statusText3">准备就绪</span>
+                        </span>
+                    </div>
+                    <div class="code-stats">
+                        <div class="timer" id="timer3">0.0s</div>
+                        <button class="run-btn" data-block="3">
+                            <i class="fas fa-play"></i> 运行代码 (Shift+Enter)
+                        </button>
+                    </div>
+                </div>
+                <pre><code>class Value:
+    """自动微分值类 - 就像考试自动批改系统"""
+    __slots__ = ('data', 'grad', '_children', '_local_grads')
+
+    def __init__(self, data, children=(), local_grads=()):
+        self.data = data           # 当前数值（比如：这道题得分）
+        self.grad = 0              # 梯度：这个数值错误对整个考试的影响
+        self._children = children  # 子节点：这个数值是怎么计算出来的
+        self._local_grads = local_grads  # 本地梯度：子节点对这个数值的贡献比例
+
+    # 各种数学运算，都记录计算关系
+    def __add__(self, other):
+        other = other if isinstance(other, Value) else Value(other)
+        return Value(self.data + other.data, (self, other), (1, 1))
+
+    def __mul__(self, other):
+        other = other if isinstance(other, Value) else Value(other)
+        return Value(self.data * other.data, (self, other), (other.data, self.data))
+
+    def log(self):
+        return Value(math.log(self.data), (self,), (1/self.data,))
+
+    def exp(self):
+        return Value(math.exp(self.data), (self,), (math.exp(self.data),))
+
+    def relu(self):
+        return Value(max(0, self.data), (self,), (float(self.data > 0),))
+
+    def backward(self):
+        """反向传播 - 自动批改系统追责：谁该为错误负责"""
+        # 1. 按计算顺序排序（拓扑排序）
+        topo = []
+        visited = set()
+
+        def build_topo(v):
+            if v not in visited:
+                visited.add(v)
+                for child in v._children:
+                    build_topo(child)
+                topo.append(v)
+
+        build_topo(self)
+
+        # 2. 从最终扣分开始，反向分摊责任
+        self.grad = 1  # 总扣分设为1，然后分摊
+        for v in reversed(topo):
+            for child, local_grad in zip(v._children, v._local_grads):
+                child.grad += local_grad * v.grad
+
+        return self
+
+# 测试自动微分
+print("🧪 测试自动微分系统:")
+x = Value(2.0)
+y = Value(3.0)
+z = x * y + 2.0  # z = 2*3 + 2 = 8
+
+# 反向传播：z错了，谁的责任？
+z.backward()
+print(f"x={x.data}, y={y.data}, z={z.data}")
+print(f"如果z错了，x该负{x.grad*100:.1f}%的责任，y该负{y.grad*100:.1f}%的责任")</code></pre>
+                <div class="analogy-box" id="analogy3">
+                    <div class="analogy-title">📝 考试比喻解释：</div>
+                    1. **Value类** = 一个智能考试系统，能追踪每道题的来源
+                    2. **data属性** = 这道题的得分
+                    3. **grad属性** = 如果整场考试没考好，这道题的责任比例
+                    4. **backward()方法** = 考试后分析：从总扣分开始，反向找出哪个知识点最薄弱
+                </div>
+            </div>
+
+            <!-- 输出区域3 -->
+            <div class="output-container" id="output3">
+                <div class="output-title"><i class="fas fa-terminal"></i> 运行结果</div>
+                <div class="output-content" id="outputContent3"></div>
+            </div>
+
+            <!-- 代码块4 -->
+            <div class="code-block" id="block4">
+                <div class="code-header">
+                    <div class="code-title">
+                        <span>代码块 4/10: 初始化模型参数</span>
+                        <span class="status-indicator">
+                            <span class="status-dot" id="status4"></span>
+                            <span id="statusText4">准备就绪</span>
+                        </span>
+                    </div>
+                    <div class="code-stats">
+                        <div class="timer" id="timer4">0.0s</div>
+                        <button class="run-btn" data-block="4">
+                            <i class="fas fa-play"></i> 运行代码 (Shift+Enter)
+                        </button>
+                    </div>
+                </div>
+                <pre><code>print("🎓 初始化学生大脑的参数（知识储备）...")
+
+# 模型超参数（学习能力配置）
+N_LAYER = 1      # 大脑思考深度（推理层数）
+N_EMBD = 16      # 每个字母的"学习笔记"长度
+BLOCK_SIZE = 16  # 最长能记忆的字母数（上下文长度）
+N_HEAD = 4       # 注意力头数量（多角度思考能力）
+HEAD_DIM = N_EMBD // N_HEAD
+
+# 创建随机参数的函数（初始知识是随机的）
+def create_matrix(rows, cols, std=0.08):
+    return [[Value(random.gauss(0, std)) for _ in range(cols)] for _ in range(rows)]
+
+# 存储所有参数的字典
+params = {}
+
+# 1. 嵌入层：给每个字母一个初始学习笔记
+params['token_embeddings'] = create_matrix(VOCAB_SIZE, N_EMBD)  # 字母嵌入
+params['position_embeddings'] = create_matrix(BLOCK_SIZE, N_EMBD)  # 位置嵌入
+
+# 2. 注意力层：学生关注不同字母的能力
+for layer_idx in range(N_LAYER):
+    # 注意力查询、键、值、输出投影
+    params[f'layer{layer_idx}.attention.query'] = create_matrix(N_EMBD, N_EMBD)
+    params[f'layer{layer_idx}.attention.key'] = create_matrix(N_EMBD, N_EMBD)
+    params[f'layer{layer_idx}.attention.value'] = create_matrix(N_EMBD, N_EMBD)
+    params[f'layer{layer_idx}.attention.output'] = create_matrix(N_EMBD, N_EMBD)
+
+    # MLP层：更深层次的思考
+    params[f'layer{layer_idx}.mlp.fc1'] = create_matrix(4 * N_EMBD, N_EMBD)
+    params[f'layer{layer_idx}.mlp.fc2'] = create_matrix(N_EMBD, 4 * N_EMBD)
+
+# 3. 输出层：最终选择题预测
+params['lm_head'] = create_matrix(VOCAB_SIZE, N_EMBD)
+
+# 统计参数总数
+all_params = []
+for matrix in params.values():
+    for row in matrix:
+        all_params.extend(row)
+
+print(f"🧮 学生大脑初始化完成！")
+print(f"📊 总参数数量: {len(all_params)}个")
+print(f"🎯 配置: {N_LAYER}层, {N_EMBD}维嵌入, {N_HEAD}个注意力头")
+print(f"📏 最长记忆: {BLOCK_SIZE}个字母")</code></pre>
+                <div class="analogy-box" id="analogy4">
+                    <div class="analogy-title">📝 考试比喻解释：</div>
+                    想象给一个新生儿配置大脑：
+                    1. **嵌入层** = 给每个选项（字母）一本16页的"学习笔记"
+                    2. **位置嵌入** = 记录字母在名字中的位置（第1个、第2个...）
+                    3. **注意力层** = 学生能同时关注多个字母的能力
+                    4. **MLP层** = 更深层次的推理思考
+                    5. **输出层** = 根据思考结果选择下一个字母
+                    所有知识一开始都是随机猜的（类似新生儿），需要通过学习来调整。
+                </div>
+            </div>
+
+            <!-- 输出区域4 -->
+            <div class="output-container" id="output4">
+                <div class="output-title"><i class="fas fa-terminal"></i> 运行结果</div>
+                <div class="output-content" id="outputContent4"></div>
+            </div>
+        </div>
+
+        <!-- 第3部分：学生思考过程（前向传播） -->
+        <div class="lesson-section">
+            <div class="section-number">3</div>
+            <div class="lesson-header">
+                <h2 class="lesson-title"><i class="fas fa-cogs"></i> 学生思考过程：GPT前向传播</h2>
+                <p class="lesson-desc">实现GPT的核心思考逻辑：注意力机制、残差连接、MLP等</p>
+
+                <div class="keywords-box">
+                    <div class="keywords-title">🤔 本节新词</div>
+                    <div class="keyword-item"><strong>前向传播(Forward Pass)</strong> = 学生做题的完整思考过程</div>
+                    <div class="keyword-item"><strong>注意力机制(Attention)</strong> = 学生同时参考之前字母的能力</div>
+                    <div class="keyword-item"><strong>残差连接(Residual Connection)</strong> = 记住重要信息，防止丢失</div>
+                    <div class="keyword-item"><strong>归一化(Normalization)</strong> = 调整思考强度，防止大脑过热</div>
+                    <div class="keyword-item"><strong>Softmax函数</strong> = 把思考结果转化为选择题概率</div>
+                </div>
+            </div>
+
+            <!-- 代码块5 -->
+            <div class="code-block" id="block5">
+                <div class="code-header">
+                    <div class="code-title">
+                        <span>代码块 5/10: 基础数学函数</span>
+                        <span class="status-indicator">
+                            <span class="status-dot" id="status5"></span>
+                            <span id="statusText5">准备就绪</span>
+                        </span>
+                    </div>
+                    <div class="code-stats">
+                        <div class="timer" id="timer5">0.0s</div>
+                        <button class="run-btn" data-block="5">
+                            <i class="fas fa-play"></i> 运行代码 (Shift+Enter)
+                        </button>
+                    </div>
+                </div>
+                <pre><code>print("🧮 定义学生思考所需的数学工具...")
+
+def linear(x, weights):
+    """线性变换：用学到的规则处理信息"""
+    # x: 输入向量，weights: 权重矩阵
+    output = []
+    for row in weights:
+        total = sum(w * xi for w, xi in zip(row, x))
+        output.append(total)
+    return output
+
+def softmax(logits):
+    """Softmax：把计算分数转化为选择题概率（每个选项的可能性）"""
+    # 1. 减去最大值防止数值溢出
+    max_val = max(val.data for val in logits)
+    shifted = [l - max_val for l in logits]
+
+    # 2. 计算exp并求和
+    exps = [x.exp() for x in shifted]
+    total = sum(exps)
+
+    # 3. 归一化
+    return [e / total for e in exps]
+
+def rmsnorm(x):
+    """RMS归一化：调整思考强度，防止某些想法太强或太弱"""
+    # 计算均方值
+    mean_square = sum(xi * xi for xi in x) / len(x)
+
+    # 缩放因子
+    scale = (mean_square + 1e-5) ** -0.5
+
+    # 应用缩放
+    return [xi * scale for xi in x]
+
+# 测试这些工具
+print("🧪 测试思考工具:")
+test_input = [Value(1.0), Value(2.0), Value(3.0)]
+test_weights = [
+    [Value(0.1), Value(0.2), Value(0.3)],
+    [Value(0.4), Value(0.5), Value(0.6)]
+]
+
+# 测试线性变换
+result = linear(test_input, test_weights)
+print(f"线性变换: [{result[0].data:.3f}, {result[1].data:.3f}]")
+
+# 测试Softmax
+probs = softmax([Value(2.0), Value(1.0), Value(0.0)])
+print(f"Softmax概率: [{probs[0].data:.3f}, {probs[1].data:.3f}, {probs[2].data:.3f}] (总和: {sum(p.data for p in probs):.3f})")</code></pre>
+                <div class="analogy-box" id="analogy5">
+                    <div class="analogy-title">📝 考试比喻解释：</div>
+                    1. **linear()** = 使用学到的规则（权重）处理当前思考
+                    2. **softmax()** = 把学生的思考强度转化为选择题概率（哪个选项最可能）
+                    3. **rmsnorm()** = 调整思考平衡，防止学生过度关注某个细节而忽略全局
+                    这些工具组合起来形成了学生的"思考方法论"。
+                </div>
+            </div>
+
+            <!-- 输出区域5 -->
+            <div class="output-container" id="output5">
+                <div class="output-title"><i class="fas fa-terminal"></i> 运行结果</div>
+                <div class="output-content" id="outputContent5"></div>
+            </div>
+
+            <!-- 代码块6 -->
+            <div class="code-block" id="block6">
+                <div class="code-header">
+                    <div class="code-title">
+                        <span>代码块 6/10: GPT前向传播（完整思考过程）</span>
+                        <span class="status-indicator">
+                            <span class="status-dot" id="status6"></span>
+                            <span id="statusText6">准备就绪</span>
+                        </span>
+                    </div>
+                    <div class="code-stats">
+                        <div class="timer" id="timer6">0.0s</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress6"></div>
+                        </div>
+                        <button class="run-btn" data-block="6">
+                            <i class="fas fa-play"></i> 运行代码 (Shift+Enter)
+                        </button>
+                    </div>
+                </div>
+                <pre><code>def gpt_forward(token_id, position_id, attention_keys, attention_values):
+    """
+    GPT前向传播：学生完整的思考过程
+    输入：当前字母ID、位置ID
+    输出：预测下一个字母的概率分布
+    """
+    # 1. 获取字母的"学习笔记"
+    token_embedding = params['token_embeddings'][token_id]
+
+    # 2. 获取位置的"位置笔记"
+    position_embedding = params['position_embeddings'][position_id]
+
+    # 3. 合并字母和位置信息
+    x = [t + p for t, p in zip(token_embedding, position_embedding)]
+    x = rmsnorm(x)  # 归一化：调整思考强度
+
+    # 4. 逐层思考（我们只有1层）
+    for layer_idx in range(N_LAYER):
+        # 保存原始信息（残差连接：防止丢失重要信息）
+        x_residual = x
+
+        # A. 多头注意力：从多个角度参考之前的信息
+        x_norm = rmsnorm(x)  # 先归一化
+
+        # 计算查询、键、值
+        q = linear(x_norm, params[f'layer{layer_idx}.attention.query'])  # 查询：我想问什么
+        k = linear(x_norm, params[f'layer{layer_idx}.attention.key'])    # 键：我之前记住什么
+        v = linear(x_norm, params[f'layer{layer_idx}.attention.value'])  # 值：我之前思考什么
+
+        # 存储键值对供后续参考
+        attention_keys[layer_idx].append(k)
+        attention_values[layer_idx].append(v)
+
+        # 多头注意力计算
+        attention_output = []
+        for head_idx in range(N_HEAD):
+            # 分割成不同的"思考角度"
+            head_start = head_idx * HEAD_DIM
+            head_end = head_start + HEAD_DIM
+
+            q_head = q[head_start:head_end]
+            k_heads = [ki[head_start:head_end] for ki in attention_keys[layer_idx]]
+            v_heads = [vi[head_start:head_end] for vi in attention_values[layer_idx]]
+
+            # 注意力分数：当前思考与之前记忆的相似度
+            attention_scores = []
+            for t in range(len(k_heads)):
+                score = sum(q_head[j] * k_heads[t][j] for j in range(HEAD_DIM))
+                score = score / math.sqrt(HEAD_DIM)  # 缩放
+                attention_scores.append(score)
+
+            # Softmax：决定关注哪些记忆
+            attention_weights = softmax(attention_scores)
+
+            # 加权求和：综合参考的记忆
+            head_result = []
+            for j in range(HEAD_DIM):
+                weighted_sum = sum(attention_weights[t] * v_heads[t][j]
+                                  for t in range(len(v_heads)))
+                head_result.append(weighted_sum)
+
+            attention_output.extend(head_result)
+
+        # 注意力输出投影
+        x_attention = linear(attention_output, params[f'layer{layer_idx}.attention.output'])
+
+        # 残差连接：保留原始信息
+        x = [a + r for a, r in zip(x_attention, x_residual)]
+
+        # B. MLP层：更深层次的思考
+        x_residual = x
+        x_norm = rmsnorm(x)
+        x_fc1 = linear(x_norm, params[f'layer{layer_idx}.mlp.fc1'])
+        x_relu = [xi.relu() for xi in x_fc1]  # 激活函数：过滤负向思考
+        x_fc2 = linear(x_relu, params[f'layer{layer_idx}.mlp.fc2'])
+        x = [a + b for a, b in zip(x_fc2, x_residual)]  # 再次残差连接
+
+    # 5. 输出预测：最终选择题答案预测
+    logits = linear(x, params['lm_head'])
+    return logits
+
+print("✅ GPT前向传播函数定义完成！")
+print("🧠 这个函数模拟了学生看到一个字母后的完整思考过程")</code></pre>
+                <div class="analogy-box" id="analogy6">
+                    <div class="analogy-title">📝 考试比喻解释：</div>
+                    学生的完整思考流程：
+                    1. **嵌入查找** = 查到当前字母的学习笔记
+                    2. **位置编码** = 记录这是名字的第几个字母
+                    3. **注意力机制** = 快速浏览之前看过的字母，找出相似规律
+                    4. **MLP思考** = 更深层的推理分析
+                    5. **残差连接** = 防止思考过程中丢失原始重要信息
+                    6. **输出预测** = 给出下一个字母的概率分布
+                </div>
+            </div>
+
+            <!-- 输出区域6 -->
+            <div class="output-container" id="output6">
+                <div class="output-title"><i class="fas fa-terminal"></i> 运行结果</div>
+                <div class="output-content" id="outputContent6"></div>
+            </div>
+        </div>
+
+        <!-- 第4部分：学生训练与考试 -->
+        <div class="lesson-section">
+            <div class="section-number">4</div>
+            <div class="lesson-header">
+                <h2 class="lesson-title"><i class="fas fa-dumbbell"></i> 学生训练：学习与优化</h2>
+                <p class="description">实现训练循环和Adam优化器，让学生通过反复练习提高</p>
+
+                <div class="keywords-box">
+                    <div class="keywords-title">🎓 本节新词</div>
+                    <div class="keyword-item"><strong>损失函数(Loss Function)</strong> = 考试扣分，衡量学生错误程度</div>
+                    <div class="keyword-item"><strong>训练循环(Training Loop)</strong> = 反复练习做题的过程</div>
+                    <div class="keyword-item"><strong>Adam优化器(Adam Optimizer)</strong> = 自适应学习计划，根据表现调整</div>
+                    <div class="keyword-item"><strong>学习率(Learning Rate)</strong> = 每次调整知识的幅度大小</div>
+                    <div class="keyword-item"><strong>梯度下降(Gradient Descent)</strong> = 根据扣分责任调整知识储备</div>
+                </div>
+            </div>
+
+            <!-- 代码块7 -->
+            <div class="code-block" id="block7">
+                <div class="code-header">
+                    <div class="code-title">
+                        <span>代码块 7/10: 初始化Adam优化器</span>
+                        <span class="status-indicator">
+                            <span class="status-dot" id="status7"></span>
+                            <span id="statusText7">准备就绪</span>
+                        </span>
+                    </div>
+                    <div class="code-stats">
+                        <div class="timer" id="timer7">0.0s</div>
+                        <button class="run-btn" data-block="7">
+                            <i class="fas fa-play"></i> 运行代码 (Shift+Enter)
+                        </button>
+                    </div>
+                </div>
+                <pre><code>print("📊 初始化自适应学习计划（Adam优化器）...")
+
+# Adam优化器配置
+LEARNING_RATE = 0.01    # 基础学习速度
+BETA1 = 0.85            # 动量系数：记住之前的学习方向
+BETA2 = 0.99            # 二阶矩系数：记住之前的学习幅度
+EPSILON = 1e-8          # 防止除零的小数值
+
+# 初始化Adam的"记忆缓存"
+m_momentum = [0.0] * len(all_params)  # 一阶动量：最近的学习方向
+v_adapt = [0.0] * len(all_params)     # 二阶动量：最近的学习幅度
+
+print(f"🎯 优化器配置：学习率={LEARNING_RATE}, β1={BETA1}, β2={BETA2}")
+print(f"🧮 已为{len(all_params)}个参数分配优化器缓存")
+
+# 测试一个训练步骤
+print("\n🧪 测试单步训练流程:")
+
+# 1. 随机选一个名字作为练习题
+test_name = random.choice(names)
+print(f"📝 练习题: '{test_name}'")
+
+# 2. 转换为标记序列（前后加上BOS）
+tokens = [BOS_ID] + [char_to_id[ch] for ch in test_name] + [BOS_ID]
+n = min(BLOCK_SIZE, len(tokens) - 1)  # 实际处理长度
+print(f"🔢 标记序列: {tokens[:n+1]}... (处理前{n}个)")
+
+# 3. 初始化注意力键值存储
+keys = [[] for _ in range(N_LAYER)]
+values = [[] for _ in range(N_LAYER)]
+
+# 4. 前向传播：学生逐一预测每个字母
+all_losses = []
+for pos in range(n):
+    current_token = tokens[pos]
+    target_token = tokens[pos + 1]
+
+    # 学生思考：预测下一个字母
+    logits = gpt_forward(current_token, pos, keys, values)
+    probs = softmax(logits)
+
+    # 计算扣分：正确选项的概率的负对数
+    target_prob = probs[target_token]
+    loss = -target_prob.log()
+    all_losses.append(loss)
+
+# 5. 平均扣分
+if all_losses:
+    avg_loss = (1.0 / n) * sum(all_losses)
+    print(f"📉 平均扣分（损失）: {avg_loss.data:.4f}")
+
+    # 反向传播：分析错误责任
+    avg_loss.backward()
+    print("✅ 反向传播完成：已分析出每个参数的责任比例")
+else:
+    print("⚠️  无法计算损失")</code></pre>
+                <div class="analogy-box" id="analogy7">
+                    <div class="analogy-title">📝 考试比喻解释：</div>
+                    Adam优化器就像是聪明的学习计划：
+                    1. **动量缓存(m)** = 记住最近的学习方向，避免反复振荡
+                    2. **自适应缓存(v)** = 记住不同知识点的调整幅度，给难的知识点更大的调整空间
+                    3. **偏差校正** = 考虑刚开始学习时缓存不准确的情况
+                    这是比简单梯度下降更高效的学习方法。
+                </div>
+            </div>
+
+            <!-- 输出区域7 -->
+            <div class="output-container" id="output7">
+                <div class="output-title"><i class="fas fa-terminal"></i> 运行结果</div>
+                <div class="output-content" id="outputContent7"></div>
+            </div>
+
+            <!-- 代码块8 -->
+            <div class="code-block" id="block8">
+                <div class="code-header">
+                    <div class="code-title">
+                        <span>代码块 8/10: 完整训练循环（20步）</span>
+                        <span class="status-indicator">
+                            <span class="status-dot" id="status8"></span>
+                            <span id="statusText8">准备就绪</span>
+                        </span>
+                    </div>
+                    <div class="code-stats">
+                        <div class="timer" id="timer8">0.0s</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress8"></div>
+                        </div>
+                        <button class="run-btn" data-block="8">
+                            <i class="fas fa-play"></i> 运行代码 (Shift+Enter)
+                        </button>
+                    </div>
+                </div>
+                <pre><code>print("🎓 开始正式训练：学生将练习20个名字...")
+TRAIN_STEPS = 20  # 训练步数（浏览器中不宜过多）
+
+# 重置参数梯度
+for param in all_params:
+    param.grad = 0
+
+# 重置Adam缓存
+m_momentum = [0.0] * len(all_params)
+v_adapt = [0.0] * len(all_params)
+
+# 训练循环
+losses_history = []
+start_time = time.time()
+
+for step in range(TRAIN_STEPS):
+    step_start = time.time()
+
+    # 1. 随机选择一个名字
+    name_idx = step % len(names)
+    current_name = names[name_idx]
+
+    # 2. 转换为标记
+    tokens = [BOS_ID] + [char_to_id[ch] for ch in current_name] + [BOS_ID]
+    n = min(BLOCK_SIZE, len(tokens) - 1)
+
+    # 3. 前向传播
+    keys = [[] for _ in range(N_LAYER)]
+    values = [[] for _ in range(N_LAYER)]
+
+    step_losses = []
+    for pos in range(n):
+        current_token = tokens[pos]
+        target_token = tokens[pos + 1]
+
+        logits = gpt_forward(current_token, pos, keys, values)
+        probs = softmax(logits)
+
+        target_prob = probs[target_token]
+        loss = -target_prob.log()
+        step_losses.append(loss)
+
+    # 计算平均损失
+    if step_losses:
+        avg_loss = (1.0 / n) * sum(step_losses)
+
+        # 4. 反向传播
+        avg_loss.backward()
+
+        # 5. Adam优化器更新
+        # 学习率衰减：越学越慢
+        lr_t = LEARNING_RATE * (1 - step / TRAIN_STEPS)
+
+        for i, param in enumerate(all_params):
+            # 更新动量
+            m_momentum[i] = BETA1 * m_momentum[i] + (1 - BETA1) * param.grad
+            v_adapt[i] = BETA2 * v_adapt[i] + (1 - BETA2) * param.grad * param.grad
+
+            # 偏差校正（训练早期修正）
+            m_hat = m_momentum[i] / (1 - BETA1 ** (step + 1))
+            v_hat = v_adapt[i] / (1 - BETA2 ** (step + 1))
+
+            # 参数更新
+            param.data -= lr_t * m_hat / (math.sqrt(v_hat) + EPSILON)
+            param.grad = 0  # 重置梯度
+
+        losses_history.append(avg_loss.data)
+        step_time = time.time() - step_start
+
+        # 进度更新
+        progress = ((step + 1) / TRAIN_STEPS) * 100
+        print(f"🏃 训练进度 {step+1:2d}/{TRAIN_STEPS} | "
+              f"扣分: {avg_loss.data:.4f} | "
+              f"学习率: {lr_t:.4f} | "
+              f"耗时: {step_time:.2f}s", end='\r')
+
+        # 更新进度条
+        document.getElementById('progress8').style.width = `${progress}%`
+
+# 训练完成
+total_time = time.time() - start_time
+print(f"\n✅ 训练完成！共耗时 {total_time:.1f}秒")
+print(f"📈 扣分历史: {', '.join(f'{loss:.3f}' for loss in losses_history[:5])}...")
+print(f"📊 扣分从 {losses_history[0]:.3f} 降到 {losses_history[-1]:.3f}")
+
+# 显示训练结果图表
+if losses_history:
+    print("\n📊 训练曲线（终端版）:")
+    max_loss = max(losses_history)
+    min_loss = min(losses_history)
+    scale = 50 / (max_loss - min_loss) if max_loss > min_loss else 1
+
+    for i, loss in enumerate(losses_history):
+        bar_len = int((loss - min_loss) * scale)
+        bar = '█' * bar_len + '░' * (50 - bar_len)
+        print(f"步骤{i+1:2d}: {bar} {loss:.3f}")</code></pre>
+                <div class="analogy-box" id="analogy8">
+                    <div class="analogy-title">📝 考试比喻解释：</div>
+                    完整的20步训练：
+                    1. **选择练习题** = 从题库中随机抽取一个名字
+                    2. **逐步预测** = 让学生逐字母预测，每个预测都计分
+                    3. **计算扣分** = 预测错误的程度（交叉熵损失）
+                    4. **反向分析** = 分析哪个知识点应该调整
+                    5. **Adam更新** = 根据分析结果调整知识储备
+                    6. **学习率衰减** = 越学越精细，调整幅度越小
+                </div>
+            </div>
+
+            <!-- 输出区域8 -->
+            <div class="output-container" id="output8">
+                <div class="output-title"><i class="fas fa-terminal"></i> 运行结果</div>
+                <div class="output-content" id="outputContent8"></div>
+            </div>
+        </div>
+
+        <!-- 第5部分：期末考试（推理生成） -->
+        <div class="lesson-section">
+            <div class="section-number">5</div>
+            <div class="lesson-header">
+                <h2 class="lesson-title"><i class="fas fa-graduation-cap"></i> 期末考试：生成新名字</h2>
+                <p class="description">使用训练好的模型生成全新的名字，展示学习成果</p>
+
+                <div class="keywords-box">
+                    <div class="keywords-title">🎉 本节新词</div>
+                    <div class="keyword-item"><strong>推理(Inference)</strong> = 期末考试，学生独立完成拼写</div>
+                    <div class="keyword-item"><strong>温度参数(Temperature)</strong> = 考试创意程度，低=保守，高=大胆</div>
+                    <div class="keyword-item"><strong>自回归生成(Autoregressive Generation)</strong> = 逐个字母生成，参考前文</div>
+                    <div class="keyword-item"><strong>采样(Sampling)</strong> = 根据概率分布随机选择答案</div>
+                    <div class="keyword-item"><strong>幻觉(Hallucination)</strong> = AI创造的新内容，实际生活中不存在</div>
+                </div>
+            </div>
+
+            <!-- 代码块9 -->
+            <div class="code-block" id="block9">
+                <div class="code-header">
+                    <div class="code-title">
+                        <span>代码块 9/10: 推理生成函数</span>
+                        <span class="status-indicator">
+                            <span class="status-dot" id="status9"></span>
+                            <span id="statusText9">准备就绪</span>
+                        </span>
+                    </div>
+                    <div class="code-stats">
+                        <div class="timer" id="timer9">0.0s</div>
+                        <button class="run-btn" data-block="9">
+                            <i class="fas fa-play"></i> 运行代码 (Shift+Enter)
+                        </button>
+                    </div>
+                </div>
+                <pre><code>print("🎭 定义推理生成函数：学生期末考试...")
+
+def generate_names(num_names=10, temperature=0.5, max_length=16):
+    """
+    生成新的名字
+    - num_names: 生成数量
+    - temperature: 创意温度（0-1，低=保守，高=大胆）
+    - max_length: 最大长度
+    """
+    print(f"🎯 生成配置：{num_names}个名字，温度={temperature}，最大长度={max_length}")
+    generated_names = []
+
+    for name_idx in range(num_names):
+        # 重置注意力缓存（每生成一个新名字都清空记忆）
+        keys = [[] for _ in range(N_LAYER)]
+        values = [[] for _ in range(N_LAYER)]
+
+        # 从BOS开始（考试开始信号）
+        current_token = BOS_ID
+        generated_chars = []
+
+        # 逐个字母生成
+        for pos in range(max_length):
+            # 学生思考：预测下一个字母
+            logits = gpt_forward(current_token, pos, keys, values)
+
+            # 应用温度：调整概率分布
+            # 温度高 -> 概率更均匀 -> 更多创意
+            # 温度低 -> 概率更集中 -> 更保守
+            scaled_logits = [l / temperature for l in logits]
+            probs = softmax(scaled_logits)
+
+            # 根据概率随机采样（就像摇骰子，但受概率影响）
+            probs_data = [p.data for p in probs]
+            next_token = random.choices(range(VOCAB_SIZE), weights=probs_data)[0]
+
+            # 如果生成到BOS，表示"学生认为名字已完成"
+            if next_token == BOS_ID:
+                break
+
+            # 转换回字符
+            char = id_to_char[next_token]
+            generated_chars.append(char)
+            current_token = next_token
+
+        # 组合成名字
+        name = ''.join(generated_chars)
+        generated_names.append(name)
+
+        # 进度显示
+        print(f"生成中 {name_idx+1}/{num_names}: '{name}'")
+
+    return generated_names
+
+print("✅ 推理生成函数定义完成！")
+print("📝 现在我们可以让学生'参加期末考试'，生成全新的名字了")</code></pre>
+                <div class="analogy-box" id="analogy9">
+                    <div class="analogy-title">📝 考试比喻解释：</div>
+                    期末考试流程：
+                    1. **清理大脑** = 重置注意力缓存，从零开始
+                    2. **看到BOS信号** = "考试开始，请写出名字"
+                    3. **逐个生成字母** = 每个字母都基于之前生成的字母
+                    4. **温度控制** = 学生的创意程度设置
+                    5. **采样选择** = 根据概率"摇骰子"选择
+                    6. **遇到BOS停止** = 学生认为名字写完了
+                </div>
+            </div>
+
+            <!-- 输出区域9 -->
+            <div class="output-container" id="output9">
+                <div class="output-title"><i class="fas fa-terminal"></i> 运行结果</div>
+                <div class="output-content" id="outputContent9"></div>
+            </div>
+
+            <!-- 代码块10 -->
+            <div class="code-block" id="block10">
+                <div class="code-header">
+                    <div class="code-title">
+                        <span>代码块 10/10: 生成新名字（展示学习成果）</span>
+                        <span class="status-indicator">
+                            <span class="status-dot" id="status10"></span>
+                            <span id="statusText10">准备就绪</span>
+                        </span>
+                    </div>
+                    <div class="code-stats">
+                        <div class="timer" id="timer10">0.0s</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress10"></div>
+                        </div>
+                        <button class="run-btn" data-block="10">
+                            <i class="fas fa-play"></i> 运行代码 (Shift+Enter)
+                        </button>
+                    </div>
+                </div>
+                <pre><code>print("🎉 期末考试：学生生成全新名字...")
+print("=" * 50)
+
+# 生成10个新名字（温度0.5，中等创意）
+start_time = time.time()
+new_names = generate_names(num_names=10, temperature=0.5)
+generation_time = time.time() - start_time
+
+print("=" * 50)
+print(f"✅ 生成完成！耗时 {generation_time:.2f}秒")
+print("\n📋 生成结果：")
+
+# 显示所有生成的名字
+for i, name in enumerate(new_names):
+    # 检查名字是否类似真实名字
+    is_realistic = any(name.lower() in real_name.lower()
+                      for real_name in names[:20])
+    realism_tag = "✅" if len(name) >= 3 and any(c.isalpha() for c in name) else "⚠️"
+
+    print(f"{i+1:2d}. {realism_tag} '{name}'")
+
+print("\n🔍 分析生成结果：")
+
+# 统计信息
+valid_names = [name for name in new_names if len(name) >= 2]
+avg_length = sum(len(name) for name in valid_names) / len(valid_names) if valid_names else 0
+
+print(f"📊 统计：{len(valid_names)}个有效名字，平均长度{avg_length:.1f}字母")
+print(f"🎯 训练样本数：{len(names)}个，训练步数：{TRAIN_STEPS}步")
+
+# 尝试不同温度生成
+print("\n🌡️  不同温度对比（创意程度实验）：")
+
+temperatures = [0.2, 0.5, 0.8]
+for temp in temperatures:
+    print(f"\n温度 {temp}: ", end="")
+    test_names = generate_names(num_names=3, temperature=temp)
+    for name in test_names:
+        print(f"'{name}' ", end="")
+
+print("\n\n📝 温度解释：")
+print("- 0.2（低温）: 保守选择，更偏向常见模式")
+print("- 0.5（中温）: 平衡选择，有一定创意")
+print("- 0.8（高温）: 大胆选择，更富创意但可能奇怪")
+
+# 最终总结
+print("\n" + "=" * 50)
+print("🎓 学习总结：")
+print("1. 学生从160个名字中学习了字母组合规律")
+print("2. 通过20次练习，扣分从高到低（损失下降）")
+print("3. 现在能生成看起来合理的英文名字")
+print("4. 虽然训练很少，但已学会基本模式")
+print("=" * 50)
+
+print("\n🏆 恭喜！你已完整理解了GPT的核心原理：")
+print("📖 数据准备 → 🧠 模型构建 → 🤔 前向传播 → 🎓 训练学习 → 🎉 推理生成")
+print("\nAI学习和人脑学习本质相同：从数据中找规律，通过反复练习提高！")</code></pre>
+                <div class="analogy-box" id="analogy10">
+                    <div class="analogy-title">📝 考试总结：</div>
+                    完整的学习闭环：
+                    1. **准备阶段**：收集数据，准备词汇表
+                    2. **大脑构建**：初始化知识储备（参数）
+                    3. **学习方法**：建立自动微分和优化系统
+                    4. **练习过程**：反复做题，调整知识
+                    5. **期末考试**：独立生成新内容
+                    虽然只有20步训练，但AI已经学会了英文名字的基本模式，能生成看起来合理的新名字！
+                </div>
+            </div>
+
+            <!-- 输出区域10 -->
+            <div class="output-container" id="output10">
+                <div class="output-title"><i class="fas fa-terminal"></i> 运行结果</div>
+                <div class="output-content" id="outputContent10"></div>
+            </div>
+
+            <!-- 成功完成信息 -->
+            <div class="success-message" id="successMessage">
+                <div class="analogy-title">🎉 学习完成！</div>
+                <p>✅ 你已成功运行了完整GPT实现的10个核心模块！</p>
+                <p>✨ 从数据准备到推理生成，整个AI学习过程都已体验。</p>
+                <p>🧠 GPT的"魔法"本质：统计模式学习 + 自动优化调整</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>基于Karpathy的microgpt (243行纯Python GPT实现) 教育版</p>
+        <p>© 2026 GPT学习秘籍 | 为文科生设计的AI教育工具</p>
+        <div class="footnote">
+            <p>技术说明：本页面使用Pyodide在浏览器中运行Python代码。训练步骤限制为20步以确保在浏览器中可接受的速度运行。</p>
+            <p>完整代码基于：https://github.com/karpathy/microgpt (Andrej Karpathy)</p>
+        </div>
+    </footer>
+
+    <!-- 加载Pyodide -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+    <script>
+        // 全局状态
+        let pyodide;
+        let isInitialized = false;
+        let isRunning = false;
+        let showAnalogies = true;
+
+        // 初始化Pyodide
+        async function initializePyodide() {
+            console.log("🔄 初始化Pyodide (浏览器Python)...");
+
+            try {
+                pyodide = await loadPyodide({
+                    indexURL: "https://cdn.jsdelivr.net/pyodide/v0.23.4/full"
+                });
+
+                // 导入必要模块
+                await pyodide.runPythonAsync(`
+                import sys
+                import io
+                import math
+                import random
+                import time
+                `);
+
+                console.log("✅ Pyodide初始化完成");
+                isInitialized = true;
+
+                // 更新按钮状态
+                document.querySelectorAll('.run-btn').forEach(btn => {
+                    btn.disabled = false;
+                });
+                document.getElementById('runAllBtn').disabled = false;
+                document.getElementById('resetBtn').disabled = false;
+
+                // 显示初始化成功
+                showMessage("✅ Python环境已准备就绪！可以运行代码块了。", "success");
+
+            } catch (error) {
+                console.error("❌ Pyodide初始化失败:", error);
+                showMessage("❌ 无法初始化Python环境，请检查网络连接。", "error");
+            }
+        }
+
+        // 运行单个代码块
+        async function runCodeBlock(blockNumber) {
+            if (!isInitialized || isRunning) return;
+
+            isRunning = true;
+            const block = document.getElementById(`block${blockNumber}`);
+            const output = document.getElementById(`output${blockNumber}`);
+            const outputContent = document.getElementById(`outputContent${blockNumber}`);
+            const timer = document.getElementById(`timer${blockNumber}`);
+            const statusDot = document.getElementById(`status${blockNumber}`);
+            const statusText = document.getElementById(`statusText${blockNumber}`);
+
+            // 重置状态
+            block.className = "code-block running";
+            statusDot.className = "status-dot running";
+            statusText.textContent = "运行中...";
+            outputContent.textContent = "";
+            output.classList.remove('show');
+
+            // 显示运行中状态
+            const startTime = Date.now();
+
+            // 更新计时器
+            const timerInterval = setInterval(() => {
+                const elapsed = (Date.now() - startTime) / 1000;
+                timer.textContent = `${elapsed.toFixed(1)}s`;
+            }, 100);
+
+            try {
+                // 执行Python代码
+                const code = getPythonCode(blockNumber);
+
+                // 重定向输出
+                await pyodide.runPythonAsync(`
+                import sys
+                import io
+                sys.stdout = io.StringIO()
+                `);
+
+                const result = await pyodide.runPythonAsync(code);
+
+                // 获取输出
+                const outputText = await pyodide.runPythonAsync("sys.stdout.getvalue()");
+
+                // 恢复标准输出
+                await pyodide.runPythonAsync("sys.stdout = sys.__stdout__");
+
+                // 显示结果
+                outputContent.textContent = outputText || "(无输出)";
+                output.classList.add('show');
+
+                // 更新状态
+                block.className = "code-block done";
+                statusDot.className = "status-dot done";
+                statusText.textContent = "完成";
+
+                // 如果这是最后一个代码块，显示成功信息
+                if (blockNumber === 10) {
+                    document.getElementById('successMessage').classList.add('show');
+                }
+
+                showMessage(`✅ 代码块 ${blockNumber} 运行成功！`, "success");
+
+            } catch (error) {
+                console.error(`❌ 代码块 ${blockNumber} 运行失败:`, error);
+
+                // 显示错误
+                outputContent.textContent = `❌ 错误：${error.message}\n\n堆栈跟踪：\n${error.stack}`;
+                output.classList.add('show');
+
+                // 更新状态
+                block.className = "code-block error";
+                statusDot.className = "status-dot error";
+                statusText.textContent = "错误";
+
+                showMessage(`❌ 代码块 ${blockNumber} 运行出错`, "error");
+
+            } finally {
+                clearInterval(timerInterval);
+                isRunning = false;
+
+                // 更新最终时间
+                const elapsed = (Date.now() - startTime) / 1000;
+                timer.textContent = `${elapsed.toFixed(1)}s`;
+
+                // 滚动到输出区域
+                output.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        // 运行所有代码块
+        async function runAllBlocks() {
+            if (!isInitialized || isRunning) return;
+
+            document.getElementById('runAllBtn').disabled = true;
+            document.getElementById('runAllBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> 运行中...';
+
+            // 先重置所有状态
+            resetAllBlocks();
+
+            isRunning = true;
+
+            try {
+                for (let i = 1; i <= 10; i++) {
+                    // 更新进度条
+                    const progress = document.getElementById(`progress${i}`);
+                    if (progress) {
+                        progress.style.width = '100%';
+                    }
+
+                    await runCodeBlock(i);
+
+                    // 等待一小段时间，让用户能看到进度
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                }
+
+                showMessage("🎉 所有代码块运行完成！GPT学习过程已完整展示。", "success");
+
+                // 滚动到最后
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+
+            } finally {
+                isRunning = false;
+                document.getElementById('runAllBtn').disabled = false;
+                document.getElementById('runAllBtn').innerHTML = '<i class="fas fa-play-circle"></i> 全部运行 (约3分钟)';
+            }
+        }
+
+        // 重置所有代码块
+        function resetAllBlocks() {
+            // 重置状态
+            for (let i = 1; i <= 10; i++) {
+                const block = document.getElementById(`block${i}`);
+                const output = document.getElementById(`output${i}`);
+                const timer = document.getElementById(`timer${i}`);
+                const statusDot = document.getElementById(`status${i}`);
+                const statusText = document.getElementById(`statusText${i}`);
+                const progress = document.getElementById(`progress${i}`);
+
+                if (block) block.className = "code-block";
+                if (output) output.classList.remove('show');
+                if (timer) timer.textContent = "0.0s";
+                if (statusDot) statusDot.className = "status-dot";
+                if (statusText) statusText.textContent = "准备就绪";
+                if (progress) progress.style.width = "0%";
+            }
+
+            // 隐藏成功信息
+            document.getElementById('successMessage').classList.remove('show');
+
+            // 重新初始化Pyodide
+            initializePyodide().then(() => {
+                showMessage("🔄 所有代码块已重置，可以重新运行。", "info");
+            });
+        }
+
+        // 切换比喻显示
+        function toggleAnalogies() {
+            showAnalogies = !showAnalogies;
+            const analogies = document.querySelectorAll('.analogy-box');
+            const button = document.getElementById('toggleAnalogyBtn');
+
+            if (showAnalogies) {
+                analogies.forEach(analogy => analogy.style.display = 'block');
+                button.innerHTML = '<i class="fas fa-eye-slash"></i> 隐藏所有比喻';
+                showMessage("✅ 所有学习比喻已显示", "info");
+            } else {
+                analogies.forEach(analogy => analogy.style.display = 'none');
+                button.innerHTML = '<i class="fas fa-eye"></i> 显示所有比喻';
+                showMessage("📝 所有学习比喻已隐藏", "info");
+            }
+        }
+
+        // 获取Python代码（根据块号）
+        function getPythonCode(blockNumber) {
+            // 这里返回硬编码的代码内容
+            // 注意：实际应用中应该从页面元素获取
+            const codes = {
+                1: `
+import math
+import random
+import time
+import sys
+
+# 设定随机种子，让每次运行结果一致
+random.seed(42)
+
+# 我们的"考试题库"：160个英文名字
+names = [
+    "emma", "olivia", "ava", "isabella", "sophia", "charlotte", "mia",
+    "amelia", "harper", "evelyn", "abigail", "emily", "elizabeth", "mila",
+    "ella", "avery", "sofia", "camila", "aria", "scarlett", "victoria",
+    "madison", "luna", "grace", "chloe", "penelope", "layla", "riley",
+    "zoey", "nora", "lily", "eleanor", "hannah", "lillian", "addison",
+    "aubrey", "ellie", "stella", "natalie", "zoe", "leah", "hazel",
+    "violet", "aurora", "savannah", "audrey", "brooklyn", "bella",
+    "claire", "skylar", "lucy", "paisley", "everly", "anna", "caroline",
+    "nova", "genesis", "emilia", "kennedy", "samantha", "maya", "willow",
+    "kinsley", "naomi", "aaliyah", "elena", "sarah", "ariana", "allison",
+    "gabriella", "alice", "madelyn", "cora", "ruby", "eva", "serenity",
+    "autumn", "adeline", "hailey", "gianna", "valentina", "isla", "eliana",
+    "quinn", "nevaeh", "ivy", "sadie", "piper", "lydia", "alexa", "josephine",
+    "emmett", "liam", "noah", "oliver", "elijah", "lucas", "mason",
+    "logan", "ethan", "jacob", "michael", "daniel", "henry", "jackson",
+    "sebastian", "alden", "matthew", "samuel", "david", "joseph", "carter",
+    "owen", "wyatt", "john", "james", "benjamin", "charles", "thomas",
+    "christopher", "jaxon", "ryan", "theodore", "josiah", "levi", "brandon",
+    "jeremiah", "angel", "cameron", "connor", "jayden", "jonathan", "isaiah",
+    "caleb", "nathan", "adrian", "christian", "aaron", "elias", "landon",
+    "colton", "roman", "axel", "brooks", "jordan", "dominick", "austin",
+    "ian", "adam", "elias", "julian", "leonardo", "santiago", "theo",
+    "harrison", "oscar", "dyson", "rhys", "beckett", "nash", "zane",
+    "judah", "felix", "bronson", "brody", "lennon", "milo", "tobias"
+]
+
+# 打乱名字顺序，就像打乱考卷
+random.shuffle(names)
+print(f"📚 考试题库大小: {len(names)}个名字")
+print(f"📖 前5个名字示例: {', '.join(names[:5])}")
+`,
+                2: `
+# 找出所有名字中出现的独特字符
+all_chars = ''.join(names)
+unique_chars = sorted(set(all_chars))
+print(f"🔤 考试中可能出现的字母: {''.join(unique_chars)}")
+
+# 为每个字符分配ID（像给学生分配学号）
+char_to_id = {char: idx for idx, char in enumerate(unique_chars)}
+id_to_char = {idx: char for char, idx in char_to_id.items()}
+
+# 添加一个特殊标记表示"考试开始"（BOS = Beginning of Sequence）
+BOS_ID = len(unique_chars)  # 最后一个ID给BOS
+VOCAB_SIZE = len(unique_chars) + 1  # 总词汇表大小（字母数 + BOS）
+
+print(f"🎯 词汇表大小: {VOCAB_SIZE} (包含{BOS_ID}个字母 + 1个BOS标记)")
+print(f"🚦 BOS标记ID: {BOS_ID} (表示'考试开始')")
+
+# 测试：将名字转换为标记序列
+test_name = names[0]
+token_ids = [BOS_ID] + [char_to_id[ch] for ch in test_name] + [BOS_ID]
+print(f"📝 名字 '{test_name}' 的标记序列: {token_ids}")
+print(f"📝 解码回名字: {''.join(id_to_char.get(idx, '?') for idx in token_ids if idx != BOS_ID)}")
+`,
+                3: `
+class Value:
+    """自动微分值类 - 就像考试自动批改系统"""
+    __slots__ = ('data', 'grad', '_children', '_local_grads')
+
+    def __init__(self, data, children=(), local_grads=()):
+        self.data = data           # 当前数值（比如：这道题得分）
+        self.grad = 0              # 梯度：这个数值错误对整个考试的影响
+        self._children = children  # 子节点：这个数值是怎么计算出来的
+        self._local_grads = local_grads  # 本地梯度：子节点对这个数值的贡献比例
+
+    # 各种数学运算，都记录计算关系
+    def __add__(self, other):
+        other = other if isinstance(other, Value) else Value(other)
+        return Value(self.data + other.data, (self, other), (1, 1))
+
+    def __mul__(self, other):
+        other = other if isinstance(other, Value) else Value(other)
+        return Value(self.data * other.data, (self, other), (other.data, self.data))
+
+    def log(self):
+        return Value(math.log(self.data), (self,), (1/self.data,))
+
+    def exp(self):
+        return Value(math.exp(self.data), (self,), (math.exp(self.data),))
+
+    def relu(self):
+        return Value(max(0, self.data), (self,), (float(self.data > 0),))
+
+    def backward(self):
+        """反向传播 - 自动批改系统追责：谁该为错误负责"""
+        # 1. 按计算顺序排序（拓扑排序）
+        topo = []
+        visited = set()
+
+        def build_topo(v):
+            if v not in visited:
+                visited.add(v)
+                for child in v._children:
+                    build_topo(child)
+                topo.append(v)
+
+        build_topo(self)
+
+        # 2. 从最终扣分开始，反向分摊责任
+        self.grad = 1  # 总扣分设为1，然后分摊
+        for v in reversed(topo):
+            for child, local_grad in zip(v._children, v._local_grads):
+                child.grad += local_grad * v.grad
+
+        return self
+
+# 测试自动微分
+print("🧪 测试自动微分系统:")
+x = Value(2.0)
+y = Value(3.0)
+z = x * y + 2.0  # z = 2*3 + 2 = 8
+
+# 反向传播：z错了，谁的责任？
+z.backward()
+print(f"x={x.data}, y={y.data}, z={z.data}")
+print(f"如果z错了，x该负{x.grad*100:.1f}%的责任，y该负{y.grad*100:.1f}%的责任")
+`,
+                4: `
+print("🎓 初始化学生大脑的参数（知识储备）...")
+
+# 模型超参数（学习能力配置）
+N_LAYER = 1      # 大脑思考深度（推理层数）
+N_EMBD = 16      # 每个字母的"学习笔记"长度
+BLOCK_SIZE = 16  # 最长能记忆的字母数（上下文长度）
+N_HEAD = 4       # 注意力头数量（多角度思考能力）
+HEAD_DIM = N_EMBD // N_HEAD
+
+# 创建随机参数的函数（初始知识是随机的）
+def create_matrix(rows, cols, std=0.08):
+    return [[Value(random.gauss(0, std)) for _ in range(cols)] for _ in range(rows)]
+
+# 存储所有参数的字典
+params = {}
+
+# 1. 嵌入层：给每个字母一个初始学习笔记
+params['token_embeddings'] = create_matrix(VOCAB_SIZE, N_EMBD)  # 字母嵌入
+params['position_embeddings'] = create_matrix(BLOCK_SIZE, N_EMBD)  # 位置嵌入
+
+# 2. 注意力层：学生关注不同字母的能力
+for layer_idx in range(N_LAYER):
+    # 注意力查询、键、值、输出投影
+    params[f'layer{layer_idx}.attention.query'] = create_matrix(N_EMBD, N_EMBD)
+    params[f'layer{layer_idx}.attention.key'] = create_matrix(N_EMBD, N_EMBD)
+    params[f'layer{layer_idx}.attention.value'] = create_matrix(N_EMBD, N_EMBD)
+    params[f'layer{layer_idx}.attention.output'] = create_matrix(N_EMBD, N_EMBD)
+
+    # MLP层：更深层次的思考
+    params[f'layer{layer_idx}.mlp.fc1'] = create_matrix(4 * N_EMBD, N_EMBD)
+    params[f'layer{layer_idx}.mlp.fc2'] = create_matrix(N_EMBD, 4 * N_EMBD)
+
+# 3. 输出层：最终选择题预测
+params['lm_head'] = create_matrix(VOCAB_SIZE, N_EMBD)
+
+# 统计参数总数
+all_params = []
+for matrix in params.values():
+    for row in matrix:
+        all_params.extend(row)
+
+print(f"🧮 学生大脑初始化完成！")
+print(f"📊 总参数数量: {len(all_params)}个")
+print(f"🎯 配置: {N_LAYER}层, {N_EMBD}维嵌入, {N_HEAD}个注意力头")
+print(f"📏 最长记忆: {BLOCK_SIZE}个字母")
+`,
+                5: `
+print("🧮 定义学生思考所需的数学工具...")
+
+def linear(x, weights):
+    """线性变换：用学到的规则处理信息"""
+    # x: 输入向量，weights: 权重矩阵
+    output = []
+    for row in weights:
+        total = sum(w * xi for w, xi in zip(row, x))
+        output.append(total)
+    return output
+
+def softmax(logits):
+    """Softmax：把计算分数转化为选择题概率（每个选项的可能性）"""
+    # 1. 减去最大值防止数值溢出
+    max_val = max(val.data for val in logits)
+    shifted = [l - max_val for l in logits]
+
+    # 2. 计算exp并求和
+    exps = [x.exp() for x in shifted]
+    total = sum(exps)
+
+    # 3. 归一化
+    return [e / total for e in exps]
+
+def rmsnorm(x):
+    """RMS归一化：调整思考强度，防止某些想法太强或太弱"""
+    # 计算均方值
+    mean_square = sum(xi * xi for xi in x) / len(x)
+
+    # 缩放因子
+    scale = (mean_square + 1e-5) ** -0.5
+
+    # 应用缩放
+    return [xi * scale for xi in x]
+
+# 测试这些工具
+print("🧪 测试思考工具:")
+test_input = [Value(1.0), Value(2.0), Value(3.0)]
+test_weights = [
+    [Value(0.1), Value(0.2), Value(0.3)],
+    [Value(0.4), Value(0.5), Value(0.6)]
+]
+
+# 测试线性变换
+result = linear(test_input, test_weights)
+print(f"线性变换: [{result[0].data:.3f}, {result[1].data:.3f}]")
+
+# 测试Softmax
+probs = softmax([Value(2.0), Value(1.0), Value(0.0)])
+print(f"Softmax概率: [{probs[0].data:.3f}, {probs[1].data:.3f}, {probs[2].data:.3f}] (总和: {sum(p.data for p in probs):.3f})")
+`,
+                6: `
+def gpt_forward(token_id, position_id, attention_keys, attention_values):
+    """
+    GPT前向传播：学生完整的思考过程
+    输入：当前字母ID、位置ID
+    输出：预测下一个字母的概率分布
+    """
+    # 1. 获取字母的"学习笔记"
+    token_embedding = params['token_embeddings'][token_id]
+
+    # 2. 获取位置的"位置笔记"
+    position_embedding = params['position_embeddings'][position_id]
+
+    # 3. 合并字母和位置信息
+    x = [t + p for t, p in zip(token_embedding, position_embedding)]
+    x = rmsnorm(x)  # 归一化：调整思考强度
+
+    # 4. 逐层思考（我们只有1层）
+    for layer_idx in range(N_LAYER):
+        # 保存原始信息（残差连接：防止丢失重要信息）
+        x_residual = x
+
+        # A. 多头注意力：从多个角度参考之前的信息
+        x_norm = rmsnorm(x)  # 先归一化
+
+        # 计算查询、键、值
+        q = linear(x_norm, params[f'layer{layer_idx}.attention.query'])  # 查询：我想问什么
+        k = linear(x_norm, params[f'layer{layer_idx}.attention.key'])    # 键：我之前记住什么
+        v = linear(x_norm, params[f'layer{layer_idx}.attention.value'])  # 值：我之前思考什么
+
+        # 存储键值对供后续参考
+        attention_keys[layer_idx].append(k)
+        attention_values[layer_idx].append(v)
+
+        # 多头注意力计算
+        attention_output = []
+        for head_idx in range(N_HEAD):
+            # 分割成不同的"思考角度"
+            head_start = head_idx * HEAD_DIM
+            head_end = head_start + HEAD_DIM
+
+            q_head = q[head_start:head_end]
+            k_heads = [ki[head_start:head_end] for ki in attention_keys[layer_idx]]
+            v_heads = [vi[head_start:head_end] for vi in attention_values[layer_idx]]
+
+            # 注意力分数：当前思考与之前记忆的相似度
+            attention_scores = []
+            for t in range(len(k_heads)):
+                score = sum(q_head[j] * k_heads[t][j] for j in range(HEAD_DIM))
+                score = score / math.sqrt(HEAD_DIM)  # 缩放
+                attention_scores.append(score)
+
+            # Softmax：决定关注哪些记忆
+            attention_weights = softmax(attention_scores)
+
+            # 加权求和：综合参考的记忆
+            head_result = []
+            for j in range(HEAD_DIM):
+                weighted_sum = sum(attention_weights[t] * v_heads[t][j]
+                                  for t in range(len(v_heads)))
+                head_result.append(weighted_sum)
+
+            attention_output.extend(head_result)
+
+        # 注意力输出投影
+        x_attention = linear(attention_output, params[f'layer{layer_idx}.attention.output'])
+
+        # 残差连接：保留原始信息
+        x = [a + r for a, r in zip(x_attention, x_residual)]
+
+        # B. MLP层：更深层次的思考
+        x_residual = x
+        x_norm = rmsnorm(x)
+        x_fc1 = linear(x_norm, params[f'layer{layer_idx}.mlp.fc1'])
+        x_relu = [xi.relu() for xi in x_fc1]  # 激活函数：过滤负向思考
+        x_fc2 = linear(x_relu, params[f'layer{layer_idx}.mlp.fc2'])
+        x = [a + b for a, b in zip(x_fc2, x_residual)]  # 再次残差连接
+
+    # 5. 输出预测：最终选择题答案预测
+    logits = linear(x, params['lm_head'])
+    return logits
+
+print("✅ GPT前向传播函数定义完成！")
+print("🧠 这个函数模拟了学生看到一个字母后的完整思考过程")
+`,
+                7: `
+print("📊 初始化自适应学习计划（Adam优化器）...")
+
+# Adam优化器配置
+LEARNING_RATE = 0.01    # 基础学习速度
+BETA1 = 0.85            # 动量系数：记住之前的学习方向
+BETA2 = 0.99            # 二阶矩系数：记住之前的学习幅度
+EPSILON = 1e-8          # 防止除零的小数值
+
+# 初始化Adam的"记忆缓存"
+m_momentum = [0.0] * len(all_params)  # 一阶动量：最近的学习方向
+v_adapt = [0.0] * len(all_params)     # 二阶动量：最近的学习幅度
+
+print(f"🎯 优化器配置：学习率={LEARNING_RATE}, β1={BETA1}, β2={BETA2}")
+print(f"🧮 已为{len(all_params)}个参数分配优化器缓存")
+
+# 测试一个训练步骤
+print("\n🧪 测试单步训练流程:")
+
+# 1. 随机选一个名字作为练习题
+test_name = random.choice(names)
+print(f"📝 练习题: '{test_name}'")
+
+# 2. 转换为标记序列（前后加上BOS）
+tokens = [BOS_ID] + [char_to_id[ch] for ch in test_name] + [BOS_ID]
+n = min(BLOCK_SIZE, len(tokens) - 1)  # 实际处理长度
+print(f"🔢 标记序列: {tokens[:n+1]}... (处理前{n}个)")
+
+# 3. 初始化注意力键值存储
+keys = [[] for _ in range(N_LAYER)]
+values = [[] for _ in range(N_LAYER)]
+
+# 4. 前向传播：学生逐一预测每个字母
+all_losses = []
+for pos in range(n):
+    current_token = tokens[pos]
+    target_token = tokens[pos + 1]
+
+    # 学生思考：预测下一个字母
+    logits = gpt_forward(current_token, pos, keys, values)
+    probs = softmax(logits)
+
+    # 计算扣分：正确选项的概率的负对数
+    target_prob = probs[target_token]
+    loss = -target_prob.log()
+    all_losses.append(loss)
+
+# 5. 平均扣分
+if all_losses:
+    avg_loss = (1.0 / n) * sum(all_losses)
+    print(f"📉 平均扣分（损失）: {avg_loss.data:.4f}")
+
+    # 反向传播：分析错误责任
+    avg_loss.backward()
+    print("✅ 反向传播完成：已分析出每个参数的责任比例")
+else:
+    print("⚠️  无法计算损失")
+`,
+                8: `
+print("🎓 开始正式训练：学生将练习20个名字...")
+TRAIN_STEPS = 20  # 训练步数（浏览器中不宜过多）
+
+# 重置参数梯度
+for param in all_params:
+    param.grad = 0
+
+# 重置Adam缓存
+m_momentum = [0.0] * len(all_params)
+v_adapt = [0.0] * len(all_params)
+
+# 训练循环
+losses_history = []
+start_time = time.time()
+
+for step in range(TRAIN_STEPS):
+    step_start = time.time()
+
+    # 1. 随机选择一个名字
+    name_idx = step % len(names)
+    current_name = names[name_idx]
+
+    # 2. 转换为标记
+    tokens = [BOS_ID] + [char_to_id[ch] for ch in current_name] + [BOS_ID]
+    n = min(BLOCK_SIZE, len(tokens) - 1)
+
+    # 3. 前向传播
+    keys = [[] for _ in range(N_LAYER)]
+    values = [[] for _ in range(N_LAYER)]
+
+    step_losses = []
+    for pos in range(n):
+        current_token = tokens[pos]
+        target_token = tokens[pos + 1]
+
+        logits = gpt_forward(current_token, pos, keys, values)
+        probs = softmax(logits)
+
+        target_prob = probs[target_token]
+        loss = -target_prob.log()
+        step_losses.append(loss)
+
+    # 计算平均损失
+    if step_losses:
+        avg_loss = (1.0 / n) * sum(step_losses)
+
+        # 4. 反向传播
+        avg_loss.backward()
+
+        # 5. Adam优化器更新
+        # 学习率衰减：越学越慢
+        lr_t = LEARNING_RATE * (1 - step / TRAIN_STEPS)
+
+        for i, param in enumerate(all_params):
+            # 更新动量
+            m_momentum[i] = BETA1 * m_momentum[i] + (1 - BETA1) * param.grad
+            v_adapt[i] = BETA2 * v_adapt[i] + (1 - BETA2) * param.grad * param.grad
+
+            # 偏差校正（训练早期修正）
+            m_hat = m_momentum[i] / (1 - BETA1 ** (step + 1))
+            v_hat = v_adapt[i] / (1 - BETA2 ** (step + 1))
+
+            # 参数更新
+            param.data -= lr_t * m_hat / (math.sqrt(v_hat) + EPSILON)
+            param.grad = 0  # 重置梯度
+
+        losses_history.append(avg_loss.data)
+        step_time = time.time() - step_start
+
+        # 进度更新
+        progress = ((step + 1) / TRAIN_STEPS) * 100
+        print(f"🏃 训练进度 {step+1:2d}/{TRAIN_STEPS} | "
+              f"扣分: {avg_loss.data:.4f} | "
+              f"学习率: {lr_t:.4f} | "
+              f"耗时: {step_time:.2f}s", end='\\r')
+
+        # 由于我们不能在Python中直接更新DOM，这里打印替代
+        pass
+
+# 训练完成
+total_time = time.time() - start_time
+print(f"\n✅ 训练完成！共耗时 {total_time:.1f}秒")
+print(f"📈 扣分历史: {', '.join(f'{loss:.3f}' for loss in losses_history[:5])}...")
+print(f"📊 扣分从 {losses_history[0]:.3f} 降到 {losses_history[-1]:.3f}")
+
+# 显示训练结果图表（简化版）
+if losses_history:
+    print("\n📊 训练曲线:")
+    max_loss = max(losses_history)
+    min_loss = min(losses_history)
+
+    for i, loss in enumerate(losses_history):
+        progress_pct = int((1 - (loss - min_loss) / (max_loss - min_loss)) * 20)
+        bar = '█' * progress_pct + '░' * (20 - progress_pct)
+        print(f"步骤{i+1:2d}: {bar} {loss:.3f}")
+`,
+                9: `
+print("🎭 定义推理生成函数：学生期末考试...")
+
+def generate_names(num_names=10, temperature=0.5, max_length=16):
+    """
+    生成新的名字
+    - num_names: 生成数量
+    - temperature: 创意温度（0-1，低=保守，高=大胆）
+    - max_length: 最大长度
+    """
+    print(f"🎯 生成配置：{num_names}个名字，温度={temperature}，最大长度={max_length}")
+    generated_names = []
+
+    for name_idx in range(num_names):
+        # 重置注意力缓存（每生成一个新名字都清空记忆）
+        keys = [[] for _ in range(N_LAYER)]
+        values = [[] for _ in range(N_LAYER)]
+
+        # 从BOS开始（考试开始信号）
+        current_token = BOS_ID
+        generated_chars = []
+
+        # 逐个字母生成
+        for pos in range(max_length):
+            # 学生思考：预测下一个字母
+            logits = gpt_forward(current_token, pos, keys, values)
+
+            # 应用温度：调整概率分布
+            # 温度高 -> 概率更均匀 -> 更多创意
+            # 温度低 -> 概率更集中 -> 更保守
+            scaled_logits = [l / temperature for l in logits]
+            probs = softmax(scaled_logits)
+
+            # 根据概率随机采样（就像摇骰子，但受概率影响）
+            probs_data = [p.data for p in probs]
+            next_token = random.choices(range(VOCAB_SIZE), weights=probs_data)[0]
+
+            # 如果生成到BOS，表示"学生认为名字已完成"
+            if next_token == BOS_ID:
+                break
+
+            # 转换回字符
+            char = id_to_char[next_token]
+            generated_chars.append(char)
+            current_token = next_token
+
+        # 组合成名字
+        name = ''.join(generated_chars)
+        generated_names.append(name)
+
+        # 进度显示
+        print(f"生成中 {name_idx+1}/{num_names}: '{name}'")
+
+    return generated_names
+
+print("✅ 推理生成函数定义完成！")
+print("📝 现在我们可以让学生'参加期末考试'，生成全新的名字了")
+`,
+                10: `
+print("🎉 期末考试：学生生成全新名字...")
+print("=" * 50)
+
+# 生成10个新名字（温度0.5，中等创意）
+start_time = time.time()
+new_names = generate_names(num_names=10, temperature=0.5, max_length=16)
+generation_time = time.time() - start_time
+
+print("=" * 50)
+print(f"✅ 生成完成！耗时 {generation_time:.2f}秒")
+print("\n📋 生成结果：")
+
+# 显示所有生成的名字
+for i, name in enumerate(new_names):
+    # 检查名字是否类似真实名字
+    is_realistic = any(name.lower() in real_name.lower()
+                      for real_name in names[:20])
+    realism_tag = "✅" if len(name) >= 3 and any(c.isalpha() for c in name) else "⚠️"
+
+    print(f"{i+1:2d}. {realism_tag} '{name}'")
+
+print("\n🔍 分析生成结果：")
+
+# 统计信息
+valid_names = [name for name in new_names if len(name) >= 2]
+avg_length = sum(len(name) for name in valid_names) / len(valid_names) if valid_names else 0
+
+print(f"📊 统计：{len(valid_names)}个有效名字，平均长度{avg_length:.1f}字母")
+print(f"🎯 训练样本数：{len(names)}个，训练步数：{TRAIN_STEPS}步")
+
+# 尝试不同温度生成
+print("\n🌡️  不同温度对比（创意程度实验）：")
+
+temperatures = [0.2, 0.5, 0.8]
+for temp in temperatures:
+    print(f"\n温度 {temp}: ", end="")
+    test_names = generate_names(num_names=3, temperature=temp, max_length=12)
+    for name in test_names:
+        print(f"'{name}' ", end="")
+
+print("\n\n📝 温度解释：")
+print("- 0.2（低温）: 保守选择，更偏向常见模式")
+print("- 0.5（中温）: 平衡选择，有一定创意")
+print("- 0.8（高温）: 大胆选择，更富创意但可能奇怪")
+
+# 最终总结
+print("\n" + "=" * 50)
+print("🎓 学习总结：")
+print("1. 学生从160个名字中学习了字母组合规律")
+print("2. 通过20次练习，扣分从高到低（损失下降）")
+print("3. 现在能生成看起来合理的英文名字")
+print("4. 虽然训练很少，但已学会基本模式")
+print("=" * 50)
+
+print("\n🏆 恭喜！你已完整理解了GPT的核心原理：")
+print("📖 数据准备 → 🧠 模型构建 → 🤔 前向传播 → 🎓 训练学习 → 🎉 推理生成")
+print("\nAI学习和人脑学习本质相同：从数据中找规律，通过反复练习提高！")
+`
+            };
+
+            return codes[blockNumber] || "# 无对应的Python代码";
+        }
+
+        // 显示消息
+        function showMessage(message, type = "info") {
+            console.log(`[${type.toUpperCase()}] ${message}`);
+
+            // 这里可以添加在页面上显示消息的逻辑
+            // 例如：创建一个临时通知
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: ${type === 'error' ? 'var(--error)' : type === 'success' ? 'var(--success)' : 'var(--primary)'};
+                color: white;
+                padding: 12px 20px;
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                z-index: 1000;
+                animation: fadeInOut 3s ease;
+            `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 500);
+            }, 2500);
+        }
+
+        // 键盘快捷键
+        document.addEventListener('keydown', (e) => {
+            // Shift+Enter 运行当前聚焦的代码块
+            if (e.shiftKey && e.key === 'Enter') {
+                e.preventDefault();
+                const activeBlock = document.querySelector('.code-block:hover');
+                if (activeBlock) {
+                    const blockId = activeBlock.id.replace('block', '');
+                    runCodeBlock(parseInt(blockId));
+                }
+            }
+
+            // Ctrl+Alt+R 运行所有
+            if (e.ctrlKey && e.altKey && e.key === 'r') {
+                e.preventDefault();
+                runAllBlocks();
+            }
+        });
+
+        // 事件监听器
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("🚀 GPT学习网页加载完成");
+
+            // 绑定运行按钮
+            document.querySelectorAll('.run-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const blockNumber = parseInt(e.target.dataset.block);
+                    runCodeBlock(blockNumber);
+                });
+
+                // 初始禁用按钮
+                btn.disabled = true;
+            });
+
+            // 绑定全部运行按钮
+            document.getElementById('runAllBtn').addEventListener('click', runAllBlocks);
+            document.getElementById('runAllBtn').disabled = true;
+
+            // 绑定重置按钮
+            document.getElementById('resetBtn').addEventListener('click', resetAllBlocks);
+            document.getElementById('resetBtn').disabled = true;
+
+            // 绑定比喻切换按钮
+            document.getElementById('toggleAnalogyBtn').addEventListener('click', toggleAnalogies);
+
+            // 显示欢迎信息
+            showMessage("🤖 欢迎来到GPT学习秘籍！正在加载Python环境...", "info");
+
+            // 初始化Pyodide
+            initializePyodide();
+        });
+    </script>
+</body>
+
+</html>
